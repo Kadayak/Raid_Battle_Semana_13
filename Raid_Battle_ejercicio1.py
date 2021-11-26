@@ -132,26 +132,22 @@ def ecuacion_bool(raiz, numeros, funcion_comp)->bool:
     else:
         return False
 
-def darTotalNodosEnNivel(raiz, nivel, funcion_comp)->int:
-    nodos=[]
+def nodos_nivel(raiz, nivel:int)->int:
+    
     if raiz != None:
-        cmp= funcion_comp(nivel, raiz["height"])
-        if cmp == 0:
-            nodos.append(raiz["key"])
-            darTotalNodosEnNivel(raiz['left'], nivel, funcion_comp)
-            darTotalNodosEnNivel(raiz['right'], nivel, funcion_comp)
+        if nivel == 0:
+            return nodos_nivel(raiz["left"], nivel-1) + nodos_nivel(raiz["right"], nivel-1) + 1
         else:
-            nodos.append(raiz["key"])
-            darTotalNodosEnNivel(raiz['left'], nivel, funcion_comp)
-            darTotalNodosEnNivel(raiz['right'], nivel, funcion_comp)
-
-    return nodos
+            return nodos_nivel(raiz["left"], nivel-1) + nodos_nivel(raiz["right"], nivel-1)
+    else:
+        return 0
 
 print(f"El resultado para la ecuacion (darTamaño(arbol) <= 2^darAlturadeArbol(arbol) - 1) para un árbol de 2 elementos es: {ecuacion_bool(raiz, 2, funcion_comp)}")
 print(f"El resultado para la ecuacion (darTamaño(arbol) <= 2^darAlturadeArbol(arbol) - 1) para un árbol de 10 elementos es: {ecuacion_bool(raiz, 10, funcion_comp)}")
 print(f"El resultado para la ecuacion (darTamaño(arbol) <= 2^darAlturadeArbol(arbol) - 1) para un árbol de 28 elementos es: {ecuacion_bool(raiz, 28, funcion_comp)}")
 print(f"El resultado para la ecuacion (darTamaño(arbol) <= 2^darAlturadeArbol(arbol) - 1) para un árbol de 150 elementos es: {ecuacion_bool(raiz, 150, funcion_comp)}")
-arbol= elementos_usuario(raiz, 10, funcion_comp)
-nodos= darTotalNodosEnNivel(arbol, 3, funcion_comp2)
+arbol= elementos_usuario(raiz, 150, funcion_comp)
+nodos= nodos_nivel(arbol, 2)
+altura = darAlturadelArbol(arbol)
+print(altura)
 print(nodos)
-print(arbol)
